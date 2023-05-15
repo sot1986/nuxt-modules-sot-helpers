@@ -14,6 +14,7 @@ export default function (
     notifications: Ref<Notification[]>
     lastIndex: Ref<number>
     addNotification: (notification: Omit<Notification, 'id'>, expiration?: number) => Promise<number>
+    closeNotification: (notification: Pick<Notification, 'id'> | number) => void
   } {
   const { notificationTimer } = useRuntimeConfig().public.sotHelpers as ModuleOptions
 
@@ -51,8 +52,20 @@ export default function (
     })
   }
 
+  function closeNotification(notification: Pick<Notification, 'id'> | number) {
+    const id = typeof notification === 'number' ? notification : notification.id
+
+    const index = notifications.value.findIndex(n => n.id === id)
+
+    if (index <= 0)
+      return
+
+    notifications.value.splice(index, 1)
+  }
+
   return {
     addNotification,
+    closeNotification,
     notifications,
     lastIndex,
   }

@@ -63,4 +63,36 @@ describe('test use notifications composables', () => {
 
     expect(lastIndex.value).toBe(1)
   })
+
+  it ('notifications can be closed before expires', async () => {
+    const time = vi.setSystemTime(new Date('2023-08-10T00:00:00Z'))
+
+    const { lastIndex, addNotification, closeNotification, notifications } = useNotifications()
+
+    await addNotification({
+      message: 'test 1',
+      type: 'error',
+    })
+
+    expect(lastIndex.value).toBe(1)
+
+    time.advanceTimersByTime(200)
+
+    const secondIndex = await addNotification({
+      message: 'test 2',
+      type: 'error',
+    })
+
+    expect(secondIndex).toBe(2)
+
+    time.advanceTimersByTime(200)
+
+    expect(notifications.value.length).toBe(2)
+
+    closeNotification(secondIndex)
+
+    expect(lastIndex.value).toBe(2)
+
+    expect(notifications.value.length).toBe(1)
+  })
 })
