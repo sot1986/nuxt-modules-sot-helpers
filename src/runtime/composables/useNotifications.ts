@@ -57,7 +57,7 @@ export default function (
 
     const index = notifications.value.findIndex(n => n.id === id)
 
-    if (index <= 0)
+    if (index < 0)
       return
 
     notifications.value.splice(index, 1)

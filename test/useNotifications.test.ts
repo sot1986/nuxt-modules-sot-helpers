@@ -69,7 +69,7 @@ describe('test use notifications composables', () => {
 
     const { lastIndex, addNotification, closeNotification, notifications } = useNotifications()
 
-    await addNotification({
+    const firstIndex = await addNotification({
       message: 'test 1',
       type: 'error',
     })
@@ -94,5 +94,9 @@ describe('test use notifications composables', () => {
     expect(lastIndex.value).toBe(2)
 
     expect(notifications.value.length).toBe(1)
+
+    closeNotification(firstIndex)
+
+    expect(notifications.value.length).toBe(0)
   })
 })
