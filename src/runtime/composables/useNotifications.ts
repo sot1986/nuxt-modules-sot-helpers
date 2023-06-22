@@ -13,17 +13,20 @@ export default function (
 ): {
     notifications: Ref<Notification[]>
     lastIndex: Ref<number>
-    addNotification: (notification: Omit<Notification, 'id'>, expiration?: number) => Promise<number>
+    addNotification: (notification: Omit<Notification, 'id'>, expiration?: number) => Promise<number | null>
     closeNotification: (notification: Pick<Notification, 'id'> | number) => void
+    addSilenceId: (value: string) => void
   } {
   const { notificationTimer } = useRuntimeConfig().public.sotHelpers as ModuleOptions
 
   const notifications = ref<Notification[]>([])
 
+  const silenceId = ref<string[]>([])
+
   const lastIndex = ref(0)
 
-  function addNotification(notification: Omit<Notification, 'id'>, expiration?: number): Promise<number> {
-    return new Promise<number>((resolve) => {
+  function addNotification(notification: Omit<Notification, 'id'>, expiration?: number): Promise<number | null> {
+    return new Promise<number | null>((resolve) => {
       const idx = notifications.value.findIndex(n => n.message === notification.message)
 
       if (idx >= 0)
@@ -63,9 +66,14 @@ export default function (
     notifications.value.splice(index, 1)
   }
 
+  function addSilenceId(value: string) {
+    silenceId.value.push(value)
+  }
+
   return {
     addNotification,
     closeNotification,
+    addSilenceId,
     notifications,
     lastIndex,
   }

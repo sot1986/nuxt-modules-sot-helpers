@@ -23,31 +23,30 @@ My new Nuxt module for doing amazing things.
 ## Features
 
 <!-- Highlight some of the features your module provide here -->
-- ⛰ &nbsp;Foo
-- 🚠 &nbsp;Bar
-- 🌲 &nbsp;Baz
+- Debounce and throttle functions
+- Custom Notifications composables to be used inside Pinia Store
 
 ## Quick Setup
 
-1. Add `my-module` dependency to your project
+1. Add `sot-helpers` dependency to your project
 
 ```bash
 # Using pnpm
-pnpm add -D my-module
+pnpm add -D sot-helpers
 
 # Using yarn
-yarn add --dev my-module
+yarn add --dev sot-helpers
 
 # Using npm
-npm install --save-dev my-module
+npm install --save-dev sot-helpers
 ```
 
-2. Add `my-module` to the `modules` section of `nuxt.config.ts`
+2. Add `sot-helpers` to the `modules` section of `nuxt.config.ts`
 
 ```js
 export default defineNuxtConfig({
   modules: [
-    'my-module'
+    'sot-helpers'
   ]
 })
 ```

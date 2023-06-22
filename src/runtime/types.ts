@@ -28,8 +28,11 @@ export type Debounce = <T extends unknown[]>(fn: (...parameters: T) => void | Pr
 
 export type Throttle = <T extends unknown[]>(fn: (...args: T) => void | Promise<void>, delay?: number) => (...args: T) => void
 
+export type UniqueId = () => string
+
 export interface HelpersI {
   route: RouteHelpers
   debounce: Debounce
   throttle: Throttle
+  uniqueId: UniqueId
 }

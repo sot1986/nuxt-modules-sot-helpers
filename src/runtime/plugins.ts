@@ -1,5 +1,6 @@
 import debounce from './Utils/debounce'
 import throttle from './Utils/throttle'
+import uniqueId from './Utils/uniqueId'
 import { computed, defineNuxtPlugin, useRoute } from '#imports'
 
 export default defineNuxtPlugin(() => {
@@ -33,6 +34,7 @@ export default defineNuxtPlugin(() => {
         },
         debounce,
         throttle,
+        uniqueId,
       },
     },
   }
