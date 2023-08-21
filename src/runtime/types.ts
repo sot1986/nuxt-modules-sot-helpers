@@ -36,3 +36,32 @@ export interface HelpersI {
   throttle: Throttle
   uniqueId: UniqueId
 }
+
+type ArrayKeys<T extends unknown[]> =
+T extends Record<infer Index, unknown>
+  ? Index extends `${number}`
+    ? Index
+    : never
+  : never
+
+type ObjectKeys<T extends object> =
+  T extends unknown[]
+    ? ArrayKeys<T>
+    : keyof T & string
+
+export type NestedKeyOf<T extends object> =
+  T extends Record<infer Key, unknown>
+    ? Key extends string | number
+      ? ObjectKeys<T> | (T[Key] extends object
+        ? `${ObjectKeys<Pick<T, Key>>}.${NestedKeyOf<T[Key]>}`
+        : never
+      )
+      : never
+    : never
+
+type SplitArrayKeys<T extends string> =
+  T extends `${infer Key}.${infer NestedKey}`
+    ? [`${Key}`, ...SplitArrayKeys<NestedKey>]
+    : [`${T}`]
+
+export type NestedKeyPathsOf<T extends object> = SplitArrayKeys<NestedKeyOf<T>>
